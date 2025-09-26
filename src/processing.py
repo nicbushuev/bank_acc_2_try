@@ -1,4 +1,8 @@
-from typing import List, Dict, Any, Optional
+from datetime import datetime
+from typing import Any, Dict, List
+
+from src.widget import get_date
+
 
 def filter_by_state(data: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
     """Функция, которая принимает список словарей и опционально значение для ключа state(по умолчанию 'EXECUTED').
@@ -6,23 +10,37 @@ def filter_by_state(data: List[Dict[str, Any]], state: str = "EXECUTED") -> List
     соответствует указанному значению.
 
     Args:
-        data: Список словарей с данными
-        state: Значение состояния для фильтрации (по умолчанию "EXECUTED")
+            data: Список словарей с данными
+            state: Значение состояния для фильтрации (по умолчанию "EXECUTED")
 
     Returns:
-        Отфильтрованный список словарей"""
+            Отфильтрованный список словарей"""
 
     sorted_data = []
 
     for example in data:
-        if example.get('state') == state:
+        if example.get("state") == state:
             sorted_data.append(example)
     return sorted_data
 
-data = [
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-    ]
 
+def sort_by_date(data: list, decrease: bool = False) -> list:
+    """
+    Функция, создающая новый список словарей с читаемым форматом дат
+    :param data: Список словарей с ключем "data"
+    :param decrease: Сортировка по убыванию - если TRUE, по возрастанию FALSE
+    :return: Новый список словарей с датами в формате ДД.ММ.ГГГГ,
+     отсортированный по дате.
+    """
+
+    new_data = []
+    for item in data:
+        # Копируем словарь, чтобы не менять старый
+        new_item = item.copy()
+        # Преобразуем дату в читаемый формат
+        new_item["date"] = get_date(item["date"])
+        new_data.append(new_item)
+
+    # Сортируем новый список словарей
+    sorted_data = sorted(new_data, key=lambda x: datetime.strptime(x["date"], "%d.%m.%Y"), reverse=decrease)
+    return sorted_data

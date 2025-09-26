@@ -38,3 +38,8 @@ def get_date(date_string: str) -> str:
 
 	date_obj = datetime.fromisoformat(date_string)
 	return f"{date_obj.day:02}.{date_obj.month:02}.{date_obj.year}"
+
+
+print(get_date("2012-03-05T18:35:29.512364"))
+print(get_date("2019-03-08T18:35:29.512364"))
+print(get_date("2013-02-04T11:35:29.512364"))
