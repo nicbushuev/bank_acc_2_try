@@ -1,5 +1,5 @@
 from src.masks import get_mask_card_number, get_mask_account
-
+from datetime import datetime
 
 
 def mask_account_card(payment_info: str) -> str:
@@ -32,7 +32,14 @@ def mask_account_card(payment_info: str) -> str:
 	else:
 		raise ValueError(f"Неизвестный тип: {payment_info}")
 
-print(mask_account_card("Visa Platinum 1234123412341234"))
-print(mask_account_card("Счет 123123123123"))
-print(mask_account_card("Visa 1234123412341234"))
 
+def get_date(date_string: str) -> str:
+	"""Преобразует дату в новый формат"""
+
+	date_obj = datetime.fromisoformat(date_string)
+	return f"{date_obj.day:02}.{date_obj.month:02}.{date_obj.year}"
+
+
+print(get_date("2012-03-05T18:35:29.512364"))
+print(get_date("2019-03-08T18:35:29.512364"))
+print(get_date("2013-02-04T11:35:29.512364"))

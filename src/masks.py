@@ -5,8 +5,8 @@ from typing import Union
 def get_mask_card_number(card_number: Union[str, int]) -> str:
     """Функция, которая маскирует введенный номер карты согласно заданной маске"""
 
-    if len(card_number) != 16:
-        raise "Неверный формат ввода! Должно быть 16 цифр"
+    if len(str(card_number)) != 16:
+        raise ValueError("Неверный формат ввода! Должно быть 16 цифр")
 
 
     card_number = str(card_number)
