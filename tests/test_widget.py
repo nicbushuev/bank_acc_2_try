@@ -30,10 +30,24 @@ def test_account_card_invalid(invalid_payment_info, error_match):
 
 @pytest.mark.parametrize("date_input, expected", [
 	("2012-03-05T18:35:29.512364", "05.03.2012"),
-	("2201-02-01T18:35:29.512364", "01.02.2201"),
-	("2000-01-05T18:35:29.512364", "05.01.2000"),
-	("0001-01-05T18:35:29.512364", "05.01.1"),
+	("2201-02-01T18:35:29", "01.02.2201"),
+	("2000-01-05", "05.01.2000"),
+
 ])
 def test_get_date_parametrize(date_input, expected):
 	"""Тест с валидными датами"""
 	assert get_date(date_input) == expected
+
+
+@pytest.mark.parametrize("invalid_date_input, error_match", [
+	("2012_03_05T18:35:29", "Неверный ISO формат"),
+	("2012 03 05 18:35:29", "Неверный ISO формат"),
+	("2012/03/05T18:35:29", "Неверный ISO формат"),
+	("05.03.2012", "Неверный ISO формат"),
+	("asdfasd", "Неверный ISO формат"),
+	("", "Неверный ISO формат"),
+])
+def test_get_date_invalid(invalid_date_input, error_match):
+	"""Тест с невалидными данными"""
+	with pytest.raises(ValueError, match=error_match):
+		get_date(invalid_date_input)

@@ -50,8 +50,12 @@ def mask_account_card(payment_info: str) -> str:
 def get_date(date_string: str) -> str:
 	"""Преобразует дату в новый формат"""
 
-	date_obj = datetime.fromisoformat(date_string)
-	return f"{date_obj.day:02}.{date_obj.month:02}.{date_obj.year}"
+	try:
+		date_obj = datetime.fromisoformat(date_string)
+		return f"{date_obj.day:02}.{date_obj.month:02}.{date_obj.year}"
+	except:
+		raise ValueError("Неверный ISO формат")
+
 
 
 print(get_date("2012-03-05T18:35:29.512364"))
